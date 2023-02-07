@@ -1,5 +1,13 @@
 let buf = "";
 
+const plot_pix = (x, y, col) => {
+  var c   = document.getElementById("cif");
+  var ctx = c.getContext("2d");
+
+  ctx.fillStyle = col || '#000';
+  ctx.fillRect(x, y, 1, 1);
+}
+
 document.querySelector("#read-file").addEventListener("click", () => {
   // does file exist?
   if(document.querySelector("#file").value == ""){
