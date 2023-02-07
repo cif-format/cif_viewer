@@ -22,11 +22,25 @@ const plot_pix = (x, y, col) => {
   var c   = document.getElementById("cif");
   var ctx = c.getContext("2d");
 
-  ctx.fillStyle = col || '#000';
+  ctx.fillStyle = col; /* || '#000'; */
   ctx.fillRect(x, y, 1, 1);
 }
 
+const toHex = (str) => {
+  const res = [];
+  const { length: len } = str;
+  for (let n = 0, l = len; n < l; n ++) {
+    const hex = Number(str.charCodeAt(n)).toString(16);
+    res.push(hex);
+  };
+  return res.join('');
+}
+
+let x = 0;
+let y = 0;
+
 document.querySelector("#read-file").addEventListener("click", () => {
+  document.getElementById("done").textContent = "";
   // does file exist?
   if(document.querySelector("#file").value == ""){
     alert("no file loaded!\n");
@@ -82,11 +96,23 @@ document.querySelector("#read-file").addEventListener("click", () => {
           console.log(`Color: ${r} | ${g} | ${b} (pix: ${ct_pixels})`);
 
           ct_pixels++;
+
+          // plot pixel
+
+          let col = r << 16 | ((g << 8) | b);
+          plot_pix(x, y, `#${col.toString(16)}`);
+          if(x != hdr.width){
+            x++;
+          } else {
+            x = 0;
+            y++;
+          }
         }
       } catch {
         continue; /* TODO */
       }
     }
+    document.getElementById("done").textContent = "(done rendering)";
   };
 
   // was there an error?
