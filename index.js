@@ -1,4 +1,22 @@
-let buf = "";
+// constant values
+let CIF_EOF      = 0xffffffff;
+let CIF_RESERVED = 0x20;
+
+const MAGIC_Number = {
+  v0: 0xdbfe
+};
+
+function cif_header_t(magic, width, height){
+  this.magic = magic;
+  this.width = width;
+  this.height = height;
+}
+
+function cif_pixel_t(r, g, b){
+  this.r = r;
+  this.g = g;
+  this.b = b;
+}
 
 const plot_pix = (x, y, col) => {
   var c   = document.getElementById("cif");
